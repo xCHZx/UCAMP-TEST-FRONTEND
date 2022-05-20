@@ -1,25 +1,37 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import Searchbar from './components/searchbar/searchbar'
+// import ProductCard from './components/cards/ProductCard'
+import { getProducts } from './services/ProductServices';
+import { Catalog } from './components/catalog/Catalog';
+import { useEffect, useState } from 'react';
+import { Searchbar } from './components/searchbar/Searchbar';
 
 function App() {
+
+  useEffect(() => {
+    getData()
+  }, [])
+  
+  const [products, setProducts] = useState([])
+
+  const getData = async(queryData) =>{
+    const response = await getProducts(queryData)
+    setProducts(response.data)
+    
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <div className='mainBody'>
+      <h1 className="mainTitle">U Camp Technical Test</h1>
+      <Searchbar className="searchbar" getData={getData}/>
+      <Catalog products={products} setProducts={setProducts}/>
     </div>
-  );
+    </>
+  )
 }
 
 export default App;
